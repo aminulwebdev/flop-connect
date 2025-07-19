@@ -51,18 +51,20 @@ const Registration = () => {
             </p>
             <div className="input-field">
               {/* ============= Email Input Field========= */}
-
               <MyInput id="outlined-basic" label="Email Address" variant="outlined" />
+
               {/* ============= Full Name Input Field========= */}
               <MyInput id="outlined-basic" label="Full Name" variant="outlined" />
-              {/* ============= Password Input Field========= */}
-              <MyInput id="outlined-basic" label="Password" variant="outlined" />
-            </div>
-            {/* ============= Sign Up Button ========= */}
 
+              {/* ============= Password Input Field========= */}
+              <MyInput type="password" id="outlined-basic" label="Password" variant="outlined" />
+            </div>
+
+            {/* ============= Sign Up Button ========= */}
             <MyButton className="signup-button" variant="contained">
               Sign up
             </MyButton>
+
             <p>Already  have an account? <span>Let’s Sign In!</span> </p>
           </div>
         </div>
