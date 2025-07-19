@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import RegistrationImage from "../assets/reg.png";
+
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 // =========== Text Field Customization =============
 
@@ -40,6 +42,14 @@ const MyButton = styled(Button)({
 });
 
 const Registration = () => {
+  //============= Password Show/Hide useState ===============
+  let [showPass, setShowPass] = useState(false);
+
+  //============= Password Show/Hide function ===============
+  let handleShowPass = () => {
+    setShowPass(!showPass);
+  };
+
   return (
     <Grid container>
       <Grid size={6}>
@@ -57,7 +67,13 @@ const Registration = () => {
               <MyInput id="outlined-basic" label="Full Name" variant="outlined" />
 
               {/* ============= Password Input Field========= */}
-              <MyInput type="password" id="outlined-basic" label="Password" variant="outlined" />
+              <div className="password-input">
+                <MyInput type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+                <div onClick={handleShowPass} className="icon-box">
+                  {/* Click koranor jonno - "onClick" use deya hoaeche */}
+                  {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
+                </div>
+              </div>
             </div>
 
             {/* ============= Sign Up Button ========= */}
@@ -65,7 +81,9 @@ const Registration = () => {
               Sign up
             </MyButton>
 
-            <p>Already  have an account? <span>Let’s Sign In!</span> </p>
+            <p>
+              Already have an account? <span>Let’s Sign In!</span>{" "}
+            </p>
           </div>
         </div>
       </Grid>
