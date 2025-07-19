@@ -69,8 +69,8 @@ const Registration = () => {
               {/* ============= Password Input Field========= */}
               <div className="password-input">
                 <MyInput type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+                {/* Click koranor jonno - "onClick" deya hoaeche */}
                 <div onClick={handleShowPass} className="icon-box">
-                  {/* Click koranor jonno - "onClick" use deya hoaeche */}
                   {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
                 </div>
               </div>

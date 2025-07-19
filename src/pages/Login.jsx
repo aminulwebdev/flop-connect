@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import LoginImage from "../assets/login.png";
-import GoogleLogo from "../assets/googlelogo.png"
+import GoogleLogo from "../assets/googlelogo.png";
+
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 // =========== Text Field Customization =============
 
@@ -41,6 +43,20 @@ const MyButton = styled(Button)({
 });
 
 const Login = () => {
+  //============= Password Show/Hide useState ===============
+  let [showPass, setShowPass] = useState(false);
+  //============= Password Show/Hide Icon useState ===============
+  let [input, setInput] = useState("");
+
+  //============= Password Show/Hide function ===============
+  let handleShowPassword = () => {
+    setShowPass(!showPass);
+  };
+  //============= Password Show/Hide Icon function ===============
+  let handleInput = (e) => {
+    setInput(e.target.value);
+  };
+
   return (
     <Grid container>
       <Grid size={6}>
@@ -56,10 +72,18 @@ const Login = () => {
               <MyInput id="standard-basic" label="Email Address" variant="standard" />
 
               {/* ============= Password Input Field========= */}
-              <MyInput type="password" id="standard-basic" label="Password" variant="standard" />
+              <div className="password-input">
+                <MyInput onChange={handleInput} value={input} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
+                {input && (
+                  <div onClick={handleShowPassword} className="login-icon-box">
+                    {/* Click koranor jonno - "onClick" deya hoaeche */}
+                    {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* ============= Kogin Button ========= */}
+            {/* ============= Login Button ========= */}
             <MyButton className="signup-button" variant="contained">
               Login to Continue
             </MyButton>

@@ -95,6 +95,13 @@ ol {
   cursor: pointer;
 }
 
+.login-icon-box {
+  position: absolute;
+  top: 46%;
+  left: 90%;
+  cursor: pointer;
+}
+
 .login-content h2 {
   font-size: 34px;
   font-weight: 700;
