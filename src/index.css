@@ -27,3 +27,10 @@ ol {
   margin: 0;
   padding: 0;
 }
+
+.reg-img{
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}

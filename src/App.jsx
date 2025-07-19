@@ -3,11 +3,12 @@ import { createRoutesFromElements, createBrowserRouter, Route, RouterProvider } 
 import Login from "./pages/login";
 import Registration from "./pages/Registration";
 
+// ============ React Router Dom ===========
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<Login />}></Route>
-      <Route path="/registration" element={<Registration />}></Route>
+      <Route path="/" element={<Registration />}></Route>
+      <Route path="/login" element={<Login />}></Route>
     </>
   )
 );
@@ -16,7 +17,6 @@ const App = () => {
   return (
     <>
       <RouterProvider router={router} />
-      <h1>App</h1>
     </>
   );
 };
