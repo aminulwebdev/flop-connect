@@ -45,14 +45,14 @@ const MyButton = styled(Button)({
 const Login = () => {
   //============= Password Show/Hide useState ===============
   let [showPass, setShowPass] = useState(false);
-  //============= Password Show/Hide Icon useState ===============
+  //============= Password - Icon Show/Hide useState ===============
   let [input, setInput] = useState("");
 
   //============= Password Show/Hide function ===============
   let handleShowPassword = () => {
     setShowPass(!showPass);
   };
-  //============= Password Show/Hide Icon function ===============
+  //============= Password - Icon Show/Hide  function ===============
   let handleInput = (e) => {
     setInput(e.target.value);
   };
@@ -74,7 +74,7 @@ const Login = () => {
               {/* ============= Password Input Field========= */}
               <div className="password-input">
                 <MyInput onChange={handleInput} value={input} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
-                {input && (
+                {input.trim() && (
                   <div onClick={handleShowPassword} className="login-icon-box">
                     {/* Click koranor jonno - "onClick" deya hoaeche */}
                     {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}

@@ -45,9 +45,16 @@ const Registration = () => {
   //============= Password Show/Hide useState ===============
   let [showPass, setShowPass] = useState(false);
 
+  //============= Password - Icon Show/Hide useState ===============
+  let [input, setInput] = useState("");
+
   //============= Password Show/Hide function ===============
   let handleShowPass = () => {
     setShowPass(!showPass);
+  };
+
+  let handleInput = (e) => {
+    setInput(e.target.value);
   };
 
   return (
@@ -68,11 +75,13 @@ const Registration = () => {
 
               {/* ============= Password Input Field========= */}
               <div className="password-input">
-                <MyInput type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
-                {/* Click koranor jonno - "onClick" deya hoaeche */}
-                <div onClick={handleShowPass} className="icon-box">
-                  {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
-                </div>
+                <MyInput onChange={handleInput} value={input} type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+                {input.trim() && (
+                  <div onClick={handleShowPass} className="icon-box">
+                    {/* Click koranor jonno - "onClick" deya hoaeche */}
+                    {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
+                  </div>
+                )}
               </div>
             </div>
 
