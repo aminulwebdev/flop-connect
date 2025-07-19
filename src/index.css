@@ -41,7 +41,6 @@ ol {
   height: 100%;
 }
 .reg-content {
-  /* background: lab(35.6% 79.24 -98.31 / 0.432); */
   padding: 30px;
   border-radius: 15px;
 }
@@ -68,5 +67,20 @@ ol {
 .input-field {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 40px;
 }
+
+.reg-content p:last-child{
+  font-size: 14px;
+  color: #03014c;
+  padding: 0 !important;
+  font-weight: 400;
+}
+.reg-content p:last-child span {
+  color: #ea6c00;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+

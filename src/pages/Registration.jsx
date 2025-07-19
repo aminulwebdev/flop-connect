@@ -9,12 +9,14 @@ import RegistrationImage from "../assets/reg.png";
 
 const MyInput = styled(TextField)({
   width: "60%",
+  borderRadius: "8px",
   "& label.Mui-focused": {
     color: "#595d8e",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
       borderColor: "#c0cdddff",
+      borderRadius: "8px",
     },
     "&:hover fieldset": {
       borderColor: "#B2BAC2",
@@ -25,10 +27,16 @@ const MyInput = styled(TextField)({
   },
 });
 
-// =========== Text Field Customization =============
+// =========== Button Customization =============
 
-const BootstrapButton = styled(Button)({
-  boxShadow: "none",
+const MyButton = styled(Button)({
+  width: "60%",
+  borderRadius: "87px",
+  height: "68px",
+  margin: "50px 0 35px",
+  fontSize: "20px",
+  fontWeight: "600",
+  textTransform: "none",
 });
 
 const Registration = () => {
@@ -43,6 +51,7 @@ const Registration = () => {
             </p>
             <div className="input-field">
               {/* ============= Email Input Field========= */}
+
               <MyInput id="outlined-basic" label="Email Address" variant="outlined" />
               {/* ============= Full Name Input Field========= */}
               <MyInput id="outlined-basic" label="Full Name" variant="outlined" />
@@ -50,7 +59,11 @@ const Registration = () => {
               <MyInput id="outlined-basic" label="Password" variant="outlined" />
             </div>
             {/* ============= Sign Up Button ========= */}
-            <Button variant="contained">Contained</Button>
+
+            <MyButton className="signup-button" variant="contained">
+              Sign up
+            </MyButton>
+            <p>Already  have an account? <span>Let’s Sign In!</span> </p>
           </div>
         </div>
       </Grid>
