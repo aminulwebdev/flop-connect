@@ -1,12 +1,19 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import Sidebar from "../components/Sidebar";
 
 const RootLayout = () => {
   return (
     <div>
-      <h1>Navbar</h1>
-      <Outlet />
-      <h1>Footer</h1>
+      <Grid container spacing={2}>
+        <Grid size={2}>
+          <Sidebar />
+        </Grid>
+        <Grid size={10}>
+          <Outlet />
+        </Grid>
+      </Grid>
     </div>
   );
 };

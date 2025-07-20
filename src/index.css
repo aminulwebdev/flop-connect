@@ -4,17 +4,14 @@
   outline: 0;
   box-sizing: border-box;
 }
-
 a {
   display: inline-block;
   text-decoration: none;
 }
-
 ul,
 ol {
   list-style: none;
 }
-
 p,
 h1,
 h2,
@@ -27,33 +24,34 @@ ol {
   margin: 0;
   padding: 0;
 }
+
+/* =============================
+    Registration Part Start
+=============================== */
+
 .reg-img {
   height: 100vh;
   width: 100%;
   object-fit: cover;
   display: block;
 }
-.reg-content-box,
-.login-content-box {
+.reg-content-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
-.reg-content,
-.login-content {
+.reg-content {
   padding: 30px;
   border-radius: 15px;
 }
-
 .reg-content h2 {
   font-size: 34px;
   font-weight: 700;
   color: #11175d;
   font-family: "Nunito", sans-serif;
 }
-
 .reg-content p {
   font-size: 20px;
   font-weight: 400;
@@ -61,17 +59,14 @@ ol {
   font-family: "Nunito", sans-serif;
   padding: 13px 0 60px;
 }
-
 .reg-content span {
   color: #c0c0c0;
 }
-
 .input-field {
   display: flex;
   flex-direction: column;
   gap: 40px;
 }
-
 .reg-content p:last-child {
   font-size: 14px;
   color: #03014c;
@@ -83,32 +78,46 @@ ol {
   font-weight: 700;
   cursor: pointer;
 }
-
 .password-input {
   position: relative;
 }
-
 .icon-box {
   position: absolute;
   top: 35%;
   left: 50%;
   cursor: pointer;
 }
+/* =============================
+    Registration Part End
+=============================== */
 
+/* =============================
+        Login Part Start
+=============================== */
+
+.login-content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.login-content {
+  padding: 30px;
+  border-radius: 15px;
+}
 .login-icon-box {
   position: absolute;
   top: 46%;
   left: 90%;
   cursor: pointer;
 }
-
 .login-content h2 {
   font-size: 34px;
   font-weight: 700;
   color: #11175d;
   font-family: "Open Sans", sans-serif;
 }
-
 .login-content p {
   font-size: 14px;
   color: #03014c;
@@ -121,13 +130,11 @@ ol {
   font-weight: 700;
   cursor: pointer;
 }
-
 .login-input-field {
   display: flex;
   flex-direction: column;
   gap: 60px;
 }
-
 .logo-box {
   display: flex;
   gap: 10px;
@@ -146,3 +153,67 @@ ol {
   color: #03014c;
   font-weight: 600;
 }
+
+/* =============================
+        Sidebar Part Star
+=============================== */
+
+.sidebar-layout {
+  background: #5f35f5;
+  height: 90vh;
+  width: 80%;
+  margin: 35px 43px 35px 32px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 38px 0 48px;
+}
+
+/* =============================
+        Sidebar Part End
+=============================== */
+
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
+/* =============================
+        Login Part Star
+=============================== */
+/* =============================
+        Login Part End
+=============================== */
