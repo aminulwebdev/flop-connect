@@ -160,8 +160,8 @@ ol {
 
 .sidebar-layout {
   background: #5f35f5;
-  height: 90vh;
-  width: 80%;
+  height: 92vh;
+  width: 75%;
   margin: 35px 43px 35px 32px;
   border-radius: 20px;
   display: flex;
@@ -169,6 +169,26 @@ ol {
   align-items: center;
   justify-content: space-between;
   padding: 38px 0 48px;
+}
+
+.profile-layout {
+  width: 100px;
+  height: 100px;
+}
+.profile-layout img {
+  width: 100%;
+  border-radius: 100%;
+}
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px ;
+}
+.page-icon {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 50px;
+  cursor: pointer;
 }
 
 /* =============================

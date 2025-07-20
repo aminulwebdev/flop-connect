@@ -4,7 +4,7 @@ import Registration from "./pages/Registration";
 import Login from "./pages/login";
 import Home from "./pages/Home";
 import RootLayout from "./layout/RootLayout";
-import Massage from "./pages/Massage";
+import Message from "./pages/Message";
 import Notification from "./pages/Notification";
 import Setting from "./pages/Setting";
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter(
       {/* ============== Root Layout Here ============ */}
       <Route path="/pages" element={<RootLayout />}>
         <Route path="home" element={<Home />}></Route>
-        <Route path="massage" element={<Massage />}></Route>
+        <Route path="message" element={<Message />}></Route>
         <Route path="notification" element={<Notification />}></Route>
         <Route path="setting" element={<Setting />}></Route>
       </Route>

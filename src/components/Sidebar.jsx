@@ -1,11 +1,26 @@
 import React from "react";
+import Profile from "../assets/profile.jpg";
+import { GoHome } from "react-icons/go";
+import { LuMessageCircleMore } from "react-icons/lu";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoSettingsOutline } from "react-icons/io5";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const Sidebar = () => {
   return (
     <div className="sidebar-layout">
-      <div className="">sdsdf</div>
-      <div>sdfs</div>
-      <div>dsfdsf</div>
+      <div className="profile-layout">
+        <img src={Profile} alt="Profile Image" />
+      </div>
+      <div className="page-layout">
+        <GoHome className="page-icon" />
+        <LuMessageCircleMore className="page-icon" />
+        <IoMdNotificationsOutline className="page-icon" />
+        <IoSettingsOutline className="page-icon" />
+      </div>
+      <div className="logout-layout">
+        <RiLogoutBoxRLine className="page-icon" />
+      </div>
     </div>
   );
 };
