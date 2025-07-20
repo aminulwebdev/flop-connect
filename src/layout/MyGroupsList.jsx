@@ -3,9 +3,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 import SingleUser from "../components/SingleUser";
 
-const UserList = () => {
+const MyGroupsList = () => {
   return (
-    <div className="userlist-box">
+    <div className="userlist-box friend-requestlist-box">
       <div className="userlist-input-box">
         <IoSearch className="search" />
         <input placeholder="Search" type="text" />
@@ -14,7 +14,7 @@ const UserList = () => {
 
       <div className="userlist-profile-box">
         <div className="title-box">
-          <h4>User List</h4>
+          <h4>My Groups</h4>
           <BsThreeDotsVertical className="three-dot" />
         </div>
         <div className="user-details">
@@ -33,4 +33,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default MyGroupsList;
