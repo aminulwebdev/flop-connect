@@ -5,6 +5,7 @@ import { LuMessageCircleMore } from "react-icons/lu";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { Link, Links } from "react-router-dom";
 
 const Sidebar = () => {
   return (
@@ -12,12 +13,22 @@ const Sidebar = () => {
       <div className="profile-layout">
         <img src={Profile} alt="Profile Image" />
       </div>
+
       <div className="page-layout">
-        <GoHome className="page-icon" />
-        <LuMessageCircleMore className="page-icon" />
-        <IoMdNotificationsOutline className="page-icon" />
-        <IoSettingsOutline className="page-icon" />
+        <Link to="/pages/home">
+          <GoHome className="page-icon" />
+        </Link>
+        <Link to="/pages/message">
+          <LuMessageCircleMore className="page-icon" />
+        </Link>
+        <Link to="/pages/notification">
+          <IoMdNotificationsOutline className="page-icon" />
+        </Link>
+        <Link to="/pages/setting">
+          <IoSettingsOutline className="page-icon" />
+        </Link>
       </div>
+
       <div className="logout-layout">
         <RiLogoutBoxRLine className="page-icon" />
       </div>
