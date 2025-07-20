@@ -9,13 +9,15 @@ import { Link, Links } from "react-router-dom";
 
 const Sidebar = () => {
   return (
+    // ============= Profile Pic Here =============
     <div className="sidebar-layout">
       <div className="profile-layout">
         <img src={Profile} alt="Profile Image" />
       </div>
 
+      {/* ============= Icon Here ============= */}
       <div className="page-layout">
-        <Link to="/pages/home">
+        <Link to="/pages/home" className="active">
           <GoHome className="page-icon" />
         </Link>
         <Link to="/pages/message">
@@ -29,6 +31,7 @@ const Sidebar = () => {
         </Link>
       </div>
 
+      {/* ============= LogOut Here ============= */}
       <div className="logout-layout">
         <RiLogoutBoxRLine className="page-icon" />
       </div>
