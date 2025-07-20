@@ -230,11 +230,50 @@ ol {
 =============================== */
 
 /* =============================
-        Login Part Star
+    Home(User List) Part Star
 =============================== */
+.grid-division {
+  margin-top: 35px;
+  margin-right: 25px;
+}
+.userlist-box {
+  /* background: #ff004c; */
+  width: 100%;
+  height: 365px;
+}
+
+.userlist-input-box {
+  position: relative;
+}
+
+.userlist-input-box input {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  border: none;
+  padding: 25px 22px 25px 58px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.userlist-input-box .search {
+  position: absolute;
+  top: 50%;
+  left: 22px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.userlist-input-box .three-dot {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
 /* =============================
-        Login Part End
+    Home(User List) Part End
 =============================== */
+
 /* =============================
         Login Part Star
 =============================== */

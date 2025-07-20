@@ -1,9 +1,23 @@
-import React from 'react'
+import React from "react";
+import Grid from "@mui/material/Grid";
+import UserList from "../layout/UserList";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div className="grid-division">
+      <Grid container spacing={3}>
+        <Grid size={4}>
+          <UserList />
+        </Grid>
+        <Grid size={4}>
+            <UserList />
+        </Grid>
+        <Grid size={4}>
+            <UserList />
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
 
-export default Home
+export default Home;
