@@ -26,6 +26,9 @@ const MyInput = styled(TextField)({
     "&.Mui-focused fieldset": {
       borderColor: "#b8bacf",
     },
+    "&.MuiInputBase-input": {
+      paddingRight: "70px"
+    },
   },
 });
 

@@ -1,7 +1,12 @@
 import React from "react";
 import { createRoutesFromElements, createBrowserRouter, Route, RouterProvider } from "react-router-dom";
-import Login from "./pages/login";
 import Registration from "./pages/Registration";
+import Login from "./pages/login";
+import RootLayout from "./layout/RootLayout";
+import Home from "./pages/Home";
+import Massage from "./pages/Massage";
+import Notification from "./pages/Notification";
+import Setting from "./pages/Setting";
 
 // ============ React Router Dom ===========
 const router = createBrowserRouter(
@@ -9,6 +14,13 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Registration />}></Route>
       <Route path="/login" element={<Login />}></Route>
+      // ============ Root Layout Part ===========
+      <Route path="/pages" element={<RootLayout />}>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/massage" element={<Massage />}></Route>
+        <Route path="/notification" element={<Notification />}></Route>
+        <Route path="/setting" element={<Setting />}></Route>
+      </Route>
     </>
   )
 );
