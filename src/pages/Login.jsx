@@ -7,6 +7,7 @@ import LoginImage from "../assets/login.png";
 import GoogleLogo from "../assets/googlelogo.png";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 // =========== Text Field Customization =============
 
@@ -132,7 +133,7 @@ const Login = () => {
             </MyButton>
 
             <p>
-              Don’t have an account ? <span>Sign up & join the Flop!</span>{" "}
+              Don’t have an account ? <Link to="/"><span>Sign up & join the Flop!</span></Link>
             </p>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
 import { ToastContainer, toast, Bounce } from "react-toastify"; // ============ React Toastify ============
 import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
+import { Link, useNavigate } from "react-router-dom";
 
 // =========== Text Field Customization =============
 const MyInput = styled(TextField)({
@@ -60,6 +61,7 @@ const Registration = () => {
   let [passwordErr, setpasswordErr] = useState(false); //============= Full Name Error Show korar jonno ==============
 
   let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
+  let navigate = useNavigate(); //============= sign up the login e jete navigate ==============
 
   //============= Password Show/Hide function ===============
   let handleShowPass = () => {
@@ -119,6 +121,9 @@ const Registration = () => {
           setPassword("");
           toast.success("Account created successfully!"); // ============== Tostify Message ===============
           setLoader(false); // ============== react loader stop ===============
+          setTimeout(() => {
+            navigate("/login"); // //============= sign up the login e jete navigate ==============
+          }, 2000);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -166,7 +171,7 @@ const Registration = () => {
             {/* ============= Loader customization ========= */}
             {loader ? (
               <div className="loader-icon">
-                <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.75" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
+                <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.4" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
               </div>
             ) : (
               <MyButton onClick={handleSignUp} className="signup-button" variant="contained">
@@ -188,7 +193,10 @@ const Registration = () => {
               transition={Bounce}
             />
             <p>
-              Already have an account? <span>Let’s Sign In!</span>
+              Already have an account?{" "}
+              <Link to="/login">
+                <span>Let’s Sign In!</span>
+              </Link>
             </p>
           </div>
         </div>
