@@ -89,10 +89,10 @@ const Login = () => {
       setpasswordErr("Must include a number.");
     } else if (!/(?=.*[@$!%*?&])/.test(password)) {
       setpasswordErr("Must include a special character.");
-    } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
-      setpasswordErr("Minimum 8 characters required.");
+    } else if (!/^[A-Za-z\d@$!%*?&]{8,16}$/.test(password)) {
+      setpasswordErr("Minimum 8-16 characters required.");
     }
-    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password) {
+    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
       console.log("All done");
     }
   };

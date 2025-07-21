@@ -7,6 +7,9 @@ import RegistrationImage from "../assets/reg.png";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
+import { ToastContainer, toast, Bounce } from "react-toastify"; // ============ React Toastify ============
+
 // =========== Text Field Customization =============
 const MyInput = styled(TextField)({
   width: "60%",
@@ -43,6 +46,8 @@ const MyButton = styled(Button)({
 });
 
 const Registration = () => {
+  const auth = getAuth(); // ============ Firebase auth ============
+
   let [showPass, setShowPass] = useState(false); //============= Password Show/Hide useState ===============
   let [input, setInput] = useState(""); //============= Password - Icon blank input field e Show/Hide useState ===============
   let [email, setEmail] = useState(""); //============= Email Show er jonno useState ===============
@@ -89,7 +94,7 @@ const Registration = () => {
 
     if (!password) {
       setpasswordErr("Password is required!");
-    } else if (!/(?=.*[a-z])/.test(password)) {
+    } else if (!/^(?=.*[a-z])/.test(password)) {
       setpasswordErr("Must include a lowercase letter.");
     } else if (!/(?=.*[A-Z])/.test(password)) {
       setpasswordErr("Must include an uppercase letter.");
@@ -97,11 +102,30 @@ const Registration = () => {
       setpasswordErr("Must include a number.");
     } else if (!/(?=.*[@$!%*?&])/.test(password)) {
       setpasswordErr("Must include a special character.");
-    } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
-      setpasswordErr("Minimum 8 characters required.");
+    } else if (!/^[A-Za-z\d@$!%*?&]{8,16}$/.test(password)) {
+      setpasswordErr("Minimum 8-16 characters required.");
     }
-    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && name && password) {
-      console.log("All done");
+    if (
+      email &&
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
+      name &&
+      password &&
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)
+    ) {
+      // ================ firebase Sign up code ==================
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // console.log(userCredential.user);
+          setEmail("");
+          setName("");
+          setPassword("");
+          toast.success("Account created successfully!"); // ============== Tostify Message ===============
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          console.log(errorCode);
+        });
     }
   };
 
@@ -117,17 +141,18 @@ const Registration = () => {
             <div className="input-field">
               {/* ============= Email Input Field========= */}
               <div className="error-message-box">
-                <MyInput onChange={handleEmail} id="outlined-basic" label="Email Address" variant="outlined" />
+                <MyInput value={email} onChange={handleEmail} id="outlined-basic" label="Email Address" variant="outlined" />
                 {emailErr && <p className="error-message">{emailErr}</p>}
               </div>
               {/* ============= Full Name Input Field========= */}
               <div className="error-message-box">
-                <MyInput onChange={handleName} id="outlined-basic" label="Full Name" variant="outlined" />
+                <MyInput value={name} onChange={handleName} id="outlined-basic" label="Full Name" variant="outlined" />
                 {nameErr && <p className="error-message">{nameErr}</p>}
               </div>
               {/* ============= Password Input Field========= */}
               <div className="password-input error-message-box">
-                <MyInput onChange={handlePassword} value={input} type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+                <MyInput value={password} onChange={handlePassword} type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" />
+                {/* Condition Apply */}
                 {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
                 {input.trim() && (
                   <div onClick={handleShowPass} className="icon-box">
@@ -142,7 +167,20 @@ const Registration = () => {
             <MyButton onClick={handleSignUp} className="signup-button" variant="contained">
               Sign up
             </MyButton>
-
+            {/* ============= Toastify customization ========= */}
+            <ToastContainer
+              position="top-left"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover={false}
+              theme="dark"
+              transition={Bounce}
+            />
             <p>
               Already have an account? <span>Let’s Sign In!</span>{" "}
             </p>
