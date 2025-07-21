@@ -9,6 +9,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
 import { ToastContainer, toast, Bounce } from "react-toastify"; // ============ React Toastify ============
+import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
 
 // =========== Text Field Customization =============
 const MyInput = styled(TextField)({
@@ -58,6 +59,8 @@ const Registration = () => {
   let [nameErr, setNameErr] = useState(false); //============= Full Name Error Show korar jonno ==============
   let [passwordErr, setpasswordErr] = useState(false); //============= Full Name Error Show korar jonno ==============
 
+  let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
+
   //============= Password Show/Hide function ===============
   let handleShowPass = () => {
     setShowPass(!showPass);
@@ -105,15 +108,9 @@ const Registration = () => {
     } else if (!/^[A-Za-z\d@$!%*?&]{8,16}$/.test(password)) {
       setpasswordErr("Minimum 8-16 characters required.");
     }
-    if (
-      email &&
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
-      name &&
-      password &&
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)
-    ) {
+    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && name && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
       // ================ firebase Sign up code ==================
-
+      setLoader(true); // ============== react loader start ===============
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // console.log(userCredential.user);
@@ -121,6 +118,7 @@ const Registration = () => {
           setName("");
           setPassword("");
           toast.success("Account created successfully!"); // ============== Tostify Message ===============
+          setLoader(false); // ============== react loader stop ===============
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -163,10 +161,18 @@ const Registration = () => {
               </div>
             </div>
 
-            {/* ============= Sign Up Button ========= */}
-            <MyButton onClick={handleSignUp} className="signup-button" variant="contained">
-              Sign up
-            </MyButton>
+            {/* ================= Sign Up Button ============== */}
+
+            {/* ============= Loader customization ========= */}
+            {loader ? (
+              <div className="loader-icon">
+                <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.75" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
+              </div>
+            ) : (
+              <MyButton onClick={handleSignUp} className="signup-button" variant="contained">
+                Sign up
+              </MyButton>
+            )}
             {/* ============= Toastify customization ========= */}
             <ToastContainer
               position="top-left"
@@ -182,7 +188,7 @@ const Registration = () => {
               transition={Bounce}
             />
             <p>
-              Already have an account? <span>Let’s Sign In!</span>{" "}
+              Already have an account? <span>Let’s Sign In!</span>
             </p>
           </div>
         </div>
