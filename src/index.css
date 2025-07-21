@@ -65,7 +65,7 @@ ol {
 .input-field {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
 }
 .reg-content p:last-child {
   font-size: 14px;
@@ -86,6 +86,19 @@ ol {
   top: 35%;
   left: 50%;
   cursor: pointer;
+}
+
+.error-message-box{
+  position: relative;
+}
+
+.error-message{
+  color: #FF0000 !important;
+  font-size: 15px !important ;
+  font-family: "Open Sans", sans-serif !important;
+  position: absolute;
+  bottom: -55%;
+  left: 1%;
 }
 /* =============================
     Registration Part End

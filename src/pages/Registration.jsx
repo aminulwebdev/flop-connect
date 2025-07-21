@@ -8,7 +8,6 @@ import RegistrationImage from "../assets/reg.png";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 // =========== Text Field Customization =============
-
 const MyInput = styled(TextField)({
   width: "60%",
   borderRadius: "8px",
@@ -27,13 +26,12 @@ const MyInput = styled(TextField)({
       borderColor: "#b8bacf",
     },
     "&.MuiInputBase-input": {
-      paddingRight: "70px"
+      paddingRight: "70px",
     },
   },
 });
 
 // =========== Button Customization =============
-
 const MyButton = styled(Button)({
   width: "60%",
   borderRadius: "87px",
@@ -45,19 +43,48 @@ const MyButton = styled(Button)({
 });
 
 const Registration = () => {
-  //============= Password Show/Hide useState ===============
-  let [showPass, setShowPass] = useState(false);
+  let [showPass, setShowPass] = useState(false); //============= Password Show/Hide useState ===============
+  let [input, setInput] = useState(""); //============= Password - Icon blank input field e Show/Hide useState ===============
+  let [email, setEmail] = useState(""); //============= Email Show er jonno useState ===============
+  let [name, setName] = useState(""); //============= Full Name er jonno useState ===============
+  let [password, setPassword] = useState(""); //============= Full Name er jonno useState ===============
 
-  //============= Password - Icon Show/Hide useState ===============
-  let [input, setInput] = useState("");
+  let [emailErr, setEmailErr] = useState(false); //============= Email Error Show korar jonno ===============
+  let [nameErr, setNameErr] = useState(false); //============= Full Name Error Show korar jonno ==============
+  let [passwordErr, setpasswordErr] = useState(false); //============= Full Name Error Show korar jonno ==============
 
   //============= Password Show/Hide function ===============
   let handleShowPass = () => {
     setShowPass(!showPass);
   };
-
-  let handleInput = (e) => {
+  //  ============= Email Input handle Function =========
+  let handleEmail = (e) => {
+    setEmail(e.target.value);
+    setEmailErr("");
+  };
+  //  ============= Full Name Input handle Function =========
+  let handleName = (e) => {
+    setName(e.target.value);
+    setNameErr("");
+  };
+  //  ============= Password Input handle Function =========
+  let handlePassword = (e) => {
     setInput(e.target.value);
+    setPassword(e.target.value);
+    setpasswordErr("");
+  };
+  //  ============= Sign Up Button Function =========
+  let handleSignUp = () => {
+    if (!email) {
+      setEmailErr("Email is required!");
+    }
+    if (!name) {
+      setNameErr("Full name is required!");
+    }
+
+    if (!password) {
+      setpasswordErr("Password is required!");
+    }
   };
 
   return (
@@ -71,25 +98,30 @@ const Registration = () => {
             </p>
             <div className="input-field">
               {/* ============= Email Input Field========= */}
-              <MyInput id="outlined-basic" label="Email Address" variant="outlined" />
-
+              <div className="error-message-box">
+                <MyInput onChange={handleEmail} id="outlined-basic" label="Email Address" variant="outlined" />
+                {emailErr && <p className="error-message">{emailErr}</p>}
+              </div>
               {/* ============= Full Name Input Field========= */}
-              <MyInput id="outlined-basic" label="Full Name" variant="outlined" />
-
+              <div className="error-message-box">
+                <MyInput onChange={handleName} id="outlined-basic" label="Full Name" variant="outlined" />
+                {nameErr && <p className="error-message">{nameErr}</p>}
+              </div>
               {/* ============= Password Input Field========= */}
-              <div className="password-input">
-                <MyInput onChange={handleInput} value={input} type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+              <div className="password-input error-message-box">
+                <MyInput onChange={handlePassword} value={input} type={showPass ? "text" : "password"} id="outlined-basic" label="Password" variant="outlined" /> {/* Condition Apply */}
+                {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
                 {input.trim() && (
                   <div onClick={handleShowPass} className="icon-box">
-                    {/* Click koranor jonno - "onClick" deya hoaeche */}
-                    {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
+                    {showPass ? <FiEye /> : <FiEyeOff />} {/* ========= Condition Apply ========= */}
                   </div>
                 )}
+                {passwordErr && <p className="error-message">{passwordErr}</p>}
               </div>
             </div>
 
             {/* ============= Sign Up Button ========= */}
-            <MyButton className="signup-button" variant="contained">
+            <MyButton onClick={handleSignUp} className="signup-button" variant="contained">
               Sign up
             </MyButton>
 
