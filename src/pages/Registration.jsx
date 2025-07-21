@@ -89,6 +89,18 @@ const Registration = () => {
 
     if (!password) {
       setpasswordErr("Password is required!");
+    } else if (!/(?=.*[a-z])/.test(password)) {
+      setpasswordErr("Must include a lowercase letter.");
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      setpasswordErr("Must include an uppercase letter.");
+    } else if (!/(?=.*\d)/.test(password)) {
+      setpasswordErr("Must include a number.");
+    } else if (!/(?=.*[@$!%*?&])/.test(password)) {
+      setpasswordErr("Must include a special character.");
+    } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
+      setpasswordErr("Minimum 8 characters required.");
+    } else {
+      console.log("All done");
     }
   };
 
