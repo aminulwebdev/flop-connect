@@ -43,18 +43,60 @@ const MyButton = styled(Button)({
 });
 
 const Login = () => {
-  //============= Password Show/Hide useState ===============
-  let [showPass, setShowPass] = useState(false);
-  //============= Password - Icon Show/Hide useState ===============
-  let [input, setInput] = useState("");
+  let [showPass, setShowPass] = useState(false); //============= Password Show/Hide useState ===============
+  let [input, setInput] = useState(""); //============= Password - Icon blank input field e Show/Hide useState ===============
+  let [email, setEmail] = useState(""); //============= Email Show er jonno useState ===============
+  let [password, setPassword] = useState(""); //============= Password er jonno useState ===============
+
+  let [emailErr, setEmailErr] = useState(false); //============= Email Error Show korar jonno ===============
+  let [passwordErr, setpasswordErr] = useState(false);
 
   //============= Password Show/Hide function ===============
   let handleShowPassword = () => {
     setShowPass(!showPass);
   };
+
+  //  ============= Email Input handle Function =========
+  let handleEmail = (e) => {
+    setEmail(e.target.value);
+    setEmailErr("");
+  };
+
   //============= Password - Icon Show/Hide  function ===============
-  let handleInput = (e) => {
+  let handlePassword = (e) => {
     setInput(e.target.value);
+    setPassword(e.target.value);
+    setpasswordErr("");
+  };
+
+  //  ============= Login Button Function =========
+  let handleLogin = () => {
+    if (!email) {
+      setEmailErr("Email is required!");
+    } else {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        setEmailErr("Please enter a valid email address.");
+      }
+    }
+
+    if (!password) {
+      setpasswordErr("Password is required!");
+    }
+    if (!password) {
+      setpasswordErr("Password is required!");
+    } else if (!/(?=.*[a-z])/.test(password)) {
+      setpasswordErr("Must include a lowercase letter.");
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      setpasswordErr("Must include an uppercase letter.");
+    } else if (!/(?=.*\d)/.test(password)) {
+      setpasswordErr("Must include a number.");
+    } else if (!/(?=.*[@$!%*?&])/.test(password)) {
+      setpasswordErr("Must include a special character.");
+    } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
+      setpasswordErr("Minimum 8 characters required.");
+    } else {
+      console.log("All done");
+    }
   };
 
   return (
@@ -69,22 +111,25 @@ const Login = () => {
             </div>
             <div className="login-input-field">
               {/* ============= Email Input Field========= */}
-              <MyInput id="standard-basic" label="Email Address" variant="standard" />
-
+              <div className="error-message-box">
+                <MyInput onChange={handleEmail} id="standard-basic" label="Email Address" variant="standard" />
+                {emailErr && <p className="error-message">{emailErr}</p>}
+              </div>
               {/* ============= Password Input Field========= */}
-              <div className="password-input">
-                <MyInput onChange={handleInput} value={input} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
+              <div className="password-input error-message-box">
+                <MyInput onChange={handlePassword} value={input} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
                 {input.trim() && (
                   <div onClick={handleShowPassword} className="login-icon-box">
                     {/* Click koranor jonno - "onClick" deya hoaeche */}
                     {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
                   </div>
                 )}
+                {passwordErr && <p className="error-message">{passwordErr}</p>}
               </div>
             </div>
 
             {/* ============= Login Button ========= */}
-            <MyButton className="signup-button" variant="contained">
+            <MyButton onClick={handleLogin} className="signup-button" variant="contained">
               Login to Continue
             </MyButton>
 

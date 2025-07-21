@@ -99,8 +99,10 @@ const Registration = () => {
       setpasswordErr("Must include a special character.");
     } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
       setpasswordErr("Minimum 8 characters required.");
-    } else {
+    }
+    else{
       console.log("All done");
+      
     }
   };
 
