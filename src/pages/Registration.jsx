@@ -77,7 +77,12 @@ const Registration = () => {
   let handleSignUp = () => {
     if (!email) {
       setEmailErr("Email is required!");
+    } else {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        setEmailErr("Please enter a valid email address.");
+      }
     }
+
     if (!name) {
       setNameErr("Full name is required!");
     }
