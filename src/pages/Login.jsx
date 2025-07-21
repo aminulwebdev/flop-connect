@@ -36,7 +36,7 @@ const MyButton = styled(Button)({
   width: "100%",
   borderRadius: "9px",
   height: "68px",
-  margin: "55px 0 35px",
+  margin: "60px 0 35px",
   fontSize: "20px",
   fontWeight: "600",
   textTransform: "none",
@@ -81,9 +81,6 @@ const Login = () => {
 
     if (!password) {
       setpasswordErr("Password is required!");
-    }
-    if (!password) {
-      setpasswordErr("Password is required!");
     } else if (!/(?=.*[a-z])/.test(password)) {
       setpasswordErr("Must include a lowercase letter.");
     } else if (!/(?=.*[A-Z])/.test(password)) {
@@ -94,7 +91,8 @@ const Login = () => {
       setpasswordErr("Must include a special character.");
     } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
       setpasswordErr("Minimum 8 characters required.");
-    } else {
+    }
+    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password) {
       console.log("All done");
     }
   };

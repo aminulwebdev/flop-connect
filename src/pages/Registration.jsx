@@ -100,9 +100,8 @@ const Registration = () => {
     } else if (!/([A-Za-z\d@$!%*?&]{8,}$)/.test(password)) {
       setpasswordErr("Minimum 8 characters required.");
     }
-    else{
+    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && name && password) {
       console.log("All done");
-      
     }
   };
 
