@@ -7,8 +7,8 @@ import RegistrationImage from "../assets/reg.png";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
-import { ToastContainer, toast, Bounce } from "react-toastify"; // ============ React Toastify ============
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; // ============ Firebase import ============
+import { ToastContainer, toast, Bounce, Flip } from "react-toastify"; // ============ React Toastify ============
 import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
 import { Link, useNavigate } from "react-router-dom"; // ============ Link, Navigate ============
 
@@ -111,23 +111,29 @@ const Registration = () => {
       setpasswordErr("Minimum 8-16 characters required.");
     }
     if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && name && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
-      // ================ firebase Sign up code ==================
       setLoader(true); // ============== react loader start ===============
+      // ================ firebase Sign up code ==================
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // console.log(userCredential.user);
-          setEmail("");
-          setName("");
-          setPassword("");
-          toast.success("Account created successfully!"); // ============== Tostify Message ===============
-          setLoader(false); // ============== react loader stop ===============
-          setTimeout(() => {
-            navigate("/login"); // //============= sign up the login e jete navigate ==============
-          }, 2000);
+          // ==================== Send Email Verification link ===============
+          sendEmailVerification(auth.currentUser).then(() => {
+            setEmail("");
+            setName("");
+            setPassword("");
+            toast.success("Account created. A verification link has been sent to your email."); // ============== Tostify Message ===============
+            setLoader(false); // ============== react loader stop ===============
+            setTimeout(() => {
+              navigate("/login"); // //============= sign up the login e jete navigate ==============
+            }, 1000);
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
-          console.log(errorCode);
+          if (errorCode.includes("auth/email-already-in-use")) {
+            console.log(errorCode);
+            toast.error("This email address is already registered.");
+            setLoader(false);
+          }
         });
     }
   };
@@ -180,8 +186,8 @@ const Registration = () => {
             )}
             {/* ============= Toastify customization ========= */}
             <ToastContainer
-              position="top-left"
-              autoClose={2000}
+              position="top-centre"
+              autoClose={1000}
               hideProgressBar={false}
               newestOnTop={false}
               closeOnClick={false}
@@ -190,7 +196,7 @@ const Registration = () => {
               draggable
               pauseOnHover={false}
               theme="dark"
-              transition={Bounce}
+              transition={Flip}
             />
             <p>
               Already have an account?{" "}

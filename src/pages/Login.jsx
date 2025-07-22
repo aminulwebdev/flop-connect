@@ -6,11 +6,13 @@ import Button from "@mui/material/Button";
 import LoginImage from "../assets/login.png";
 import GoogleLogo from "../assets/googlelogo.png";
 
-import { FiEye, FiEyeOff } from "react-icons/fi";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
+import { FiEye, FiEyeOff } from "react-icons/fi"; // ============ React eye icon ============
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // ============ Firebase import ============
 import { Flip, Slide, ToastContainer, toast } from "react-toastify"; // ============ React Toastify ============
+import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // ============ Link, Navigate ============
+
 
 // =========== Text Field Customization =============
 
@@ -48,6 +50,7 @@ const MyButton = styled(Button)({
 
 const Login = () => {
   const auth = getAuth(); // ============ Firebase auth ============
+  const provider = new GoogleAuthProvider(); //  ============ Firebase Google provider ============
 
   let [showPass, setShowPass] = useState(false); //============= Password Show/Hide useState ===============
   let [input, setInput] = useState(""); //============= Password - Icon blank input field e Show/Hide useState ===============
@@ -56,6 +59,9 @@ const Login = () => {
 
   let [emailErr, setEmailErr] = useState(false); //============= Email Error Show korar jonno ===============
   let [passwordErr, setpasswordErr] = useState(false);
+
+  let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
+  let navigate = useNavigate(); //============= sign up the login - navigate ==============
 
   //============= Password Show/Hide function ===============
   let handleShowPassword = () => {
@@ -99,21 +105,44 @@ const Login = () => {
       setpasswordErr("Minimum 8-16 characters required.");
     }
     if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
+      setLoader(true); // ============== react loader start ===============
       // ================ firebase Login code ==================
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // const user = userCredential.user;
-          setEmail("");
-          setPassword("");
-          console.log("hello");
+          if (userCredential.user.emailVerified) {
+            toast.success("Login successful. Welcome back!");
+            setLoader(false); // ============== react loader start ===============
+            // setEmail("");
+            // setPassword("");
+          } else {
+            toast.error("Email not verified. Check your inbox to verify your account.");
+            setLoader(false); // ============== react loader stop ===============
+          }
         })
         .catch((error) => {
           const errorCode = error.code;
           if (errorCode.includes("auth/invalid-credential")) {
             toast.error("Invalid email or password.");
+            setLoader(false); // ============== react loader stop ===============
           }
         });
     }
+  };
+
+  //  ============= Login With Google - Function =========
+
+  let handleGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+      navigate("/pages/home")
+        console.log("google login");
+        
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log(errorCode);
+        
+      });
   };
 
   return (
@@ -122,7 +151,8 @@ const Login = () => {
         <div className="login-content-box">
           <div className="login-content">
             <h2>Login to Flop Connect</h2>
-            <div className="logo-box">
+            {/* ===============  login with google ========== */}
+            <div onClick={handleGoogle} className="logo-box">
               <img src={GoogleLogo} alt="" />
               <span>Login with Google</span>
             </div>
@@ -146,10 +176,18 @@ const Login = () => {
             </div>
 
             {/* ============= Login Button ========= */}
-            <MyButton onClick={handleLogin} className="signup-button" variant="contained">
-              Login to Continue
-            </MyButton>
-             {/* ============= Toastify customization for Error message ========= */}
+            {/* ============= Loader customization ========= */}
+            {loader ? (
+              <div className="login-loader-icon">
+                <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.4" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
+              </div>
+            ) : (
+              <MyButton onClick={handleLogin} className="signup-button" variant="contained">
+                Login to Continue
+              </MyButton>
+            )}
+
+            {/* ============= Toastify customization for Error message ========= */}
             <ToastContainer
               position="top-centre"
               autoClose={2000}
