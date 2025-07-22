@@ -10,7 +10,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
 import { ToastContainer, toast, Bounce } from "react-toastify"; // ============ React Toastify ============
 import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // ============ Link, Navigate ============
 
 // =========== Text Field Customization =============
 const MyInput = styled(TextField)({
@@ -61,7 +61,7 @@ const Registration = () => {
   let [passwordErr, setpasswordErr] = useState(false); //============= Full Name Error Show korar jonno ==============
 
   let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
-  let navigate = useNavigate(); //============= sign up the login e jete navigate ==============
+  let navigate = useNavigate(); //============= sign up the login - navigate ==============
 
   //============= Password Show/Hide function ===============
   let handleShowPass = () => {

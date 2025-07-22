@@ -7,6 +7,9 @@ import LoginImage from "../assets/login.png";
 import GoogleLogo from "../assets/googlelogo.png";
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; // ============ Firebase import ============
+import { Flip, Slide, ToastContainer, toast } from "react-toastify"; // ============ React Toastify ============
+
 import { Link } from "react-router-dom";
 
 // =========== Text Field Customization =============
@@ -44,6 +47,8 @@ const MyButton = styled(Button)({
 });
 
 const Login = () => {
+  const auth = getAuth(); // ============ Firebase auth ============
+
   let [showPass, setShowPass] = useState(false); //============= Password Show/Hide useState ===============
   let [input, setInput] = useState(""); //============= Password - Icon blank input field e Show/Hide useState ===============
   let [email, setEmail] = useState(""); //============= Email Show er jonno useState ===============
@@ -94,7 +99,20 @@ const Login = () => {
       setpasswordErr("Minimum 8-16 characters required.");
     }
     if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
-      console.log("All done");
+      // ================ firebase Login code ==================
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // const user = userCredential.user;
+          setEmail("");
+          setPassword("");
+          console.log("hello");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          if (errorCode.includes("auth/invalid-credential")) {
+            toast.error("Invalid email or password.");
+          }
+        });
     }
   };
 
@@ -111,15 +129,15 @@ const Login = () => {
             <div className="login-input-field">
               {/* ============= Email Input Field========= */}
               <div className="error-message-box">
-                <MyInput onChange={handleEmail} id="standard-basic" label="Email Address" variant="standard" />
+                <MyInput value={email} onChange={handleEmail} id="standard-basic" label="Email Address" variant="standard" />
                 {emailErr && <p className="error-message">{emailErr}</p>}
               </div>
               {/* ============= Password Input Field========= */}
               <div className="password-input error-message-box">
-                <MyInput onChange={handlePassword} value={input} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
+                <MyInput value={password} onChange={handlePassword} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
+                {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
                 {input.trim() && (
                   <div onClick={handleShowPassword} className="login-icon-box">
-                    {/* Click koranor jonno - "onClick" deya hoaeche */}
                     {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
                   </div>
                 )}
@@ -131,9 +149,26 @@ const Login = () => {
             <MyButton onClick={handleLogin} className="signup-button" variant="contained">
               Login to Continue
             </MyButton>
+             {/* ============= Toastify customization for Error message ========= */}
+            <ToastContainer
+              position="top-centre"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover={false}
+              theme="dark"
+              transition={Flip}
+            />
 
             <p>
-              Don’t have an account ? <Link to="/"><span>Sign up & join the Flop!</span></Link>
+              Don’t have an account ?{" "}
+              <Link to="/">
+                <span>Sign up & join the Flop!</span>
+              </Link>
             </p>
           </div>
         </div>
