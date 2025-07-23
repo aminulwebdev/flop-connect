@@ -7,11 +7,13 @@ import LoginImage from "../assets/login.png";
 import GoogleLogo from "../assets/googlelogo.png";
 
 import { FiEye, FiEyeOff } from "react-icons/fi"; // ============ React eye icon ============
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // ============ Firebase import ============
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth"; // ============ Firebase import ============
 import { Flip, Slide, ToastContainer, toast } from "react-toastify"; // ============ React Toastify ============
 import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
 
 import { Link, useNavigate } from "react-router-dom"; // ============ Link, Navigate ============
+import { useDispatch } from "react-redux"; // ============ Data pathnor jonno disPatch ============
+import { userDetails } from "../slices/userInfoSlice"; // ============  disPatch theke data aei slice e jabe ============
 
 // =========== Text Field Customization =============
 
@@ -64,7 +66,9 @@ const Login = () => {
   let [forgotUI, setforgotUI] = useState(false); //============= Forget Password  UI ===============
 
   let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
+
   let navigate = useNavigate(); //============= sign up the login - navigate ==============
+  let disPatch = useDispatch(); //============= Data pathnor jonno aei hook - Dispatch==============
 
   //============= Password Show/Hide function ===============
   let handleShowPassword = () => {
@@ -84,7 +88,7 @@ const Login = () => {
     setpasswordErr("");
   };
 
-  //  ============= Login Button Function =========
+  //  ============= Login Button Function =================
   let handleLogin = () => {
     if (!email) {
       setEmailErr("Email is required!");
@@ -96,27 +100,22 @@ const Login = () => {
 
     if (!password) {
       setpasswordErr("Password is required!");
-    } else if (!/(?=.*[a-z])/.test(password)) {
-      setpasswordErr("Must include a lowercase letter.");
-    } else if (!/(?=.*[A-Z])/.test(password)) {
-      setpasswordErr("Must include an uppercase letter.");
-    } else if (!/(?=.*\d)/.test(password)) {
-      setpasswordErr("Must include a number.");
-    } else if (!/(?=.*[@$!%*?&])/.test(password)) {
-      setpasswordErr("Must include a special character.");
-    } else if (!/^[A-Za-z\d@$!%*?&]{8,16}$/.test(password)) {
-      setpasswordErr("Minimum 8-16 characters required.");
     }
-    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password && /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,16}$/.test(password)) {
+
+    if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password) {
       setLoader(true); // ============== react loader start ===============
       // ================ firebase Login code ==================
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
-            toast.success("Login successful. Welcome back!");
+            //  console.log(userCredential.user);
+            disPatch(userDetails(userCredential.user)); // ============ Aei page theke disPatch maddme data - userDetails - slice e jabe ============
+             localStorage.setItem("userinfo",JSON.stringify(userCredential.user)); // ============ localStorage e data save rakaha - ja sudu string data rakhe ============
+
+
+            // toast.success("Login successful. Welcome back!");
+            navigate("/pages/home");
             setLoader(false); // ============== react loader start ===============
-            // setEmail("");
-            // setPassword("");
           } else {
             toast.error("Email not verified. Check your inbox to verify your account.");
             setLoader(false); // ============== react loader stop ===============
@@ -125,8 +124,12 @@ const Login = () => {
         .catch((error) => {
           const errorCode = error.code;
           if (errorCode.includes("auth/invalid-credential")) {
-            toast.error("Invalid email or password.");
+            toast.error("Incorrect email or password.");
             setLoader(false); // ============== react loader stop ===============
+          } else if (errorCode.includes("auth/too-many-requests")) {
+            toast.error("Too many attempts. Please try again later.");
+            setLoader(false); // ============== react loader stop ===============
+            console.log(errorCode);
           }
         });
     }
@@ -142,7 +145,7 @@ const Login = () => {
       })
       .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode);
+        // console.log(errorCode);
       });
   };
 
@@ -166,20 +169,123 @@ const Login = () => {
   let handleSendButton = () => {
     if (!forgotEmail) {
       setForgotEmailErr("Email is required!");
-    } else {
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        setForgotEmailErr("Please enter a valid email address.");
-      }
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(forgotEmail)) {
+      setForgotEmailErr("Please enter a valid email address.");
+    }
+
+    if (forgotEmail && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(forgotEmail)) {
+      sendPasswordResetEmail(auth, forgotEmail)
+        .then(() => {
+          toast.success("Reset link sent. Please check your inbox or spam folder.");
+          setForgotEmail("");
+          setTimeout(() => {
+            setforgotUI(false);
+          }, 3000);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          console.log(errorCode);
+          if (errorCode.includes("auth/too-many-requests")) {
+            toast.error("Too many attempts. Please try again later.");
+          }
+        });
     }
   };
 
   return (
     <>
-      {forgotUI ? (
-        // ============================================
-        //                 Forgot Password UI
-        //  =============================================
+      <Grid container>
+        <Grid size={6}>
+          <div className="login-content-box">
+            <div className="login-content">
+              <h2>Login to Flop Connect</h2>
+              {/* ===============  login with google ========== */}
+              <div onClick={handleGoogle} className="logo-box">
+                <img src={GoogleLogo} alt="" />
+                <span>Login with Google</span>
+              </div>
+              <div className="login-input-field">
+                {/* ============= Email Input Field========= */}
+                <div className="error-message-box">
+                  <MyInput value={email} onChange={handleEmail} id="standard-basic" label="Email Address" variant="standard" />
+                  {emailErr && <p className="error-message">{emailErr}</p>}
+                </div>
+                {/* ============= Password Input Field========= */}
+                <div className="password-input error-message-box">
+                  <MyInput value={password} onChange={handlePassword} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
+                  {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
+                  {input.trim() && (
+                    <div onClick={handleShowPassword} className="login-icon-box">
+                      {showPass ? <FiEyeOff /> : <FiEye />} {/* Condition Apply */}
+                    </div>
+                  )}
+                  {passwordErr && <p className="error-message">{passwordErr}</p>}
+                </div>
+              </div>
+              {/* ============= Login Button ========= */}
+              {/* ============= Loader customization ========= */}
+              {loader ? (
+                <div className="login-loader-icon">
+                  <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.4" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
+                </div>
+              ) : (
+                <MyButton onClick={handleLogin} className="signup-button" variant="contained">
+                  Login to Continue
+                </MyButton>
+              )}
+              {/* ============= Toastify customization for Error message ========= */}
+              <ToastContainer
+                position="top-centre"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="dark"
+                transition={Flip}
+              />
+
+              {/* ============== Forget Password ============== */}
+              <h3 onClick={HandleforgetPassword} className="forget-password">
+                I forgot my password
+              </h3>
+              <p>
+                Don’t have an account ?{" "}
+                <Link to="/">
+                  <span>Sign up & join the Flop!</span>
+                </Link>
+              </p>
+            </div>
+          </div>
+        </Grid>
+        {/* ============ Image Here =========== */}
+        <Grid size={6}>
+          <img className="reg-img" src={LoginImage} alt="" />
+        </Grid>
+      </Grid>
+
+      {/*============================================ 
+                    Forgot Password UI Here
+      ============================================= */}
+      {forgotUI && (
         <div className="ui-for-forgotpassword">
+          {/* ============= Toastify customization for Error message ========= */}
+          <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover={false}
+            theme="dark"
+            transition={Flip}
+          />
           <div className="forgotpassword-box-ui">
             {/* ============= Email Input Field=========  */}
             <div className="error-message-box ">
@@ -191,84 +297,11 @@ const Login = () => {
                 Back to Login
               </MyButton>
               <MyButton onClick={handleSendButton} className="signup-button" variant="contained">
-                Send
+                Send Link
               </MyButton>
             </div>
           </div>
         </div>
-      ) : (
-        <Grid container>
-          <Grid size={6}>
-            <div className="login-content-box">
-              <div className="login-content">
-                <h2>Login to Flop Connect</h2>
-                {/* ===============  login with google ========== */}
-                <div onClick={handleGoogle} className="logo-box">
-                  <img src={GoogleLogo} alt="" />
-                  <span>Login with Google</span>
-                </div>
-                <div className="login-input-field">
-                  {/* ============= Email Input Field========= */}
-                  <div className="error-message-box">
-                    <MyInput value={email} onChange={handleEmail} id="standard-basic" label="Email Address" variant="standard" />
-                    {emailErr && <p className="error-message">{emailErr}</p>}
-                  </div>
-                  {/* ============= Password Input Field========= */}
-                  <div className="password-input error-message-box">
-                    <MyInput value={password} onChange={handlePassword} type={showPass ? "text" : "password"} id="standard-basic" label="Password" variant="standard" /> {/* Condition Apply */}
-                    {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
-                    {input.trim() && (
-                      <div onClick={handleShowPassword} className="login-icon-box">
-                        {showPass ? <FiEye /> : <FiEyeOff />} {/* Condition Apply */}
-                      </div>
-                    )}
-                    {passwordErr && <p className="error-message">{passwordErr}</p>}
-                  </div>
-                </div>
-                {/* ============= Login Button ========= */}
-                {/* ============= Loader customization ========= */}
-                {loader ? (
-                  <div className="login-loader-icon">
-                    <RotatingLines visible={true} height="50" width="50" color="grey" strokeWidth="5" animationDuration="0.4" ariaLabel="rotating-lines-loading" wrapperStyle={{}} wrapperClass="" />
-                  </div>
-                ) : (
-                  <MyButton onClick={handleLogin} className="signup-button" variant="contained">
-                    Login to Continue
-                  </MyButton>
-                )}
-                {/* ============= Toastify customization for Error message ========= */}
-                <ToastContainer
-                  position="top-centre"
-                  autoClose={2000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick={false}
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover={false}
-                  theme="dark"
-                  transition={Flip}
-                />
-
-                {/* ============== Forget Password ============== */}
-                <h3 onClick={HandleforgetPassword} className="forget-password">
-                  I forgot my password
-                </h3>
-                <p>
-                  Don’t have an account ?{" "}
-                  <Link to="/">
-                    <span>Sign up & join the Flop!</span>
-                  </Link>
-                </p>
-              </div>
-            </div>
-          </Grid>
-          {/* ============ Image Here =========== */}
-          <Grid size={6}>
-            <img className="reg-img" src={LoginImage} alt="" />
-          </Grid>
-        </Grid>
       )}
     </>
   );

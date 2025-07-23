@@ -176,7 +176,7 @@ ol {
   font-weight: 600;
 }
 .login-loader-icon {
-  padding: 55px 40%;
+  padding: 52px 40%;
 }
 .forget-password {
   font-family: "Open Sans", sans-serif;
@@ -194,26 +194,25 @@ ol {
 .ui-for-forgotpassword {
   height: 100vh;
   width: 100%;
-  background: #000000;
+  background: rgba(0, 0, 0, 0.582);
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 3;
+  z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-
-
 .forgotpassword-box-ui {
   width: 800px;
   background: #ffffff;
   border-radius: 20px;
-  padding: 100px;
+  padding: 80px;
+  padding-top: 125px;
 }
 
-.forget-button{
+.forget-button {
   display: flex;
   gap: 20px;
 }

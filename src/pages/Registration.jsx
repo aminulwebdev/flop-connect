@@ -165,7 +165,7 @@ const Registration = () => {
                 {/*========== onClick=()=>setShowPass(!showpass) - aivabe o lika jay - lada function na likhe ==========  */}
                 {input.trim() && (
                   <div onClick={handleShowPass} className="icon-box">
-                    {showPass ? <FiEye /> : <FiEyeOff />} {/* ========= Condition Apply ========= */}
+                    {showPass ? <FiEyeOff /> : <FiEye />} {/* ========= Condition Apply ========= */}
                   </div>
                 )}
                 {passwordErr && <p className="error-message">{passwordErr}</p>}
