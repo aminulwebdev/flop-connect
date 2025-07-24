@@ -4,7 +4,7 @@ export const userInfoSlice = createSlice({
   name: "info",
   initialState: {
     // ================== localStorage data check kore save kore rakha -jate reload dilte redux theke na jay =============
-    value: localStorage.getItem("userinfo") ? JSON.parse(localStorage.getItem("userinfo")) : null,  // ================== String theke array object kora hoaeche =============
+    value: localStorage.getItem("userinfo") ? JSON.parse(localStorage.getItem("userinfo")) : null, // ================== String theke array object kora hoaeche =============
   },
   reducers: {
     userDetails: (state, action) => {

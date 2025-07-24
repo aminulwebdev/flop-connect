@@ -67,8 +67,8 @@ const Login = () => {
 
   let [loader, setLoader] = useState(false); //============= React Loader er jonno useState ==============
 
-  let navigate = useNavigate(); //============= sign up the login - navigate ==============
   let disPatch = useDispatch(); //============= Data pathnor jonno aei hook - Dispatch==============
+  let navigate = useNavigate(); //============= sign up the login - navigate ==============
 
   //============= Password Show/Hide function ===============
   let handleShowPassword = () => {
@@ -104,16 +104,13 @@ const Login = () => {
 
     if (email && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) && password) {
       setLoader(true); // ============== react loader start ===============
+
       // ================ firebase Login code ==================
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           if (userCredential.user.emailVerified) {
-            //  console.log(userCredential.user);
             disPatch(userDetails(userCredential.user)); // ============ Aei page theke disPatch maddme data - userDetails - slice e jabe ============
-             localStorage.setItem("userinfo",JSON.stringify(userCredential.user)); // ============ localStorage e data save rakaha - ja sudu string data rakhe ============
-
-
-            // toast.success("Login successful. Welcome back!");
+            localStorage.setItem("userinfo", JSON.stringify(userCredential.user)); // ============ localStorage e data save rakaha - ja sudu string data rakhe ============
             navigate("/pages/home");
             setLoader(false); // ============== react loader start ===============
           } else {
@@ -272,7 +269,7 @@ const Login = () => {
       ============================================= */}
       {forgotUI && (
         <div className="ui-for-forgotpassword">
-          {/* ============= Toastify customization for Error message ========= */}
+          {/* ============= Toastify customization ========= */}
           <ToastContainer
             position="top-center"
             autoClose={1000}
