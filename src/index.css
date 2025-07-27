@@ -236,10 +236,36 @@ ol {
 .profile-layout {
   width: 100px;
   height: 100px;
+  position: relative;
 }
 .profile-layout img {
   width: 100%;
   border-radius: 100%;
+}
+
+.profile-layout .profile-overly {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.418);
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.profile-layout .profile-overly .profile-update-icon {
+  font-size: 25px;
+  color: #fff;
+}
+
+.profile-layout:hover .profile-overly {
+  opacity: 1;
 }
 
 .page-layout {
@@ -287,6 +313,58 @@ ol {
   z-index: 1;
 }
 
+.profile-update-window {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.651);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.window-image-box {
+  width: 800px;
+  /* height: 300px; */
+  background: #fff;
+  border-radius: 20px;
+  display: flex;
+  row-gap: 10px;
+  flex-direction: column;
+  padding: 50px;
+  font-family: "Open Sans", sans-serif;
+}
+
+.preview-window-box {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  /* justify-content: space-between; */
+  column-gap: 115px;
+}
+
+.show-preview-img-box {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: scale(2.5);
+  /* transform-origin: top left; */
+  border: 2px solid #ccc;
+
+}
+
+.show-preview-img {
+  width: 100%;
+  height: 100%;
+}
+
+.window-button-box {
+  display: flex;
+  gap: 20px;
+}
 /* =============================
         Sidebar Part End
 =============================== */
