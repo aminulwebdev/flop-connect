@@ -10,9 +10,10 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { Link, Links, useLocation, useNavigate, useParams } from "react-router-dom";
 
-import { getAuth, signOut } from "firebase/auth"; // ============ Firebase import ============
-import { useDispatch } from "react-redux"; // ============ Data pathnor jonno disPatch ============
+import { getAuth, signOut, updateProfile } from "firebase/auth"; // ============ Firebase import ============
+import { useDispatch, useSelector } from "react-redux"; // ============ Data pathnor jonno disPatch ============
 import { userDetails } from "../slices/userInfoSlice"; // ============  disPatch theke data aei slice e jabe ============
+import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage"; // ============  Firebase Storage ============
 
 // ===============================================
 //         React Copper import
@@ -37,6 +38,7 @@ const MyButton = styled(Button)({
 
 const Sidebar = () => {
   const auth = getAuth();
+  const storage = getStorage(); // ============  Firebase Storage ============
 
   let dispatch = useDispatch(); //============= Data pathnor jonno aei hook - Dispatch==============
   let navigate = useNavigate(); //============= login page jaoyar - navigate ==============
@@ -52,6 +54,11 @@ const Sidebar = () => {
   const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("");
   const cropperRef = createRef("");
+
+  // =================== Redux theke Profile r data collect ===================
+
+  const Profiledata = useSelector((state) => state.userInfo.value);
+  console.log(Profiledata.photoURL);
 
   // =============== useEffect For Active path ==================
   useEffect(() => {
@@ -92,7 +99,7 @@ const Sidebar = () => {
     }
   };
 
-  // =================== Teact Copper Function ==================
+  // =================== React Copper Function / Profile Pic update ==================
 
   const onChange = (e) => {
     e.preventDefault();
@@ -114,7 +121,34 @@ const Sidebar = () => {
   const getCropData = () => {
     if (typeof cropperRef.current?.cropper !== "undefined") {
       setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-      console.log(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+      // console.log(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+
+      // ===============================
+      //          Firebase Storage
+      // ===============================
+      const storageRef = ref(storage, auth.currentUser.uid);
+      // Data URL string
+      const message4 = cropperRef.current?.cropper.getCroppedCanvas().toDataURL();
+      uploadString(storageRef, message4, "data_url").then((snapshot) => {
+        console.log("Uploaded a data_url string!");
+      });
+
+      //================= Uploads Files on Firebase ==================
+      getDownloadURL(storageRef)
+        .then((downloadURL) => {
+          console.log("File available at", downloadURL);
+
+          // ==================== Update a user's profile ===============
+
+          updateProfile(auth.currentUser, {
+            photoURL: downloadURL, //================= Profile updated ==================
+          });
+        })
+        .then(() => {
+          setImage("");
+          setVisibleProfileWindow(false); //================= Profile update er por window cole jabe ==================
+          setCropData("");
+        });
     }
   };
 
@@ -122,11 +156,12 @@ const Sidebar = () => {
     // ============= Profile Pic Here =============
     <div className="sidebar-layout">
       <div onClick={handleUpdateProfile} className="profile-layout">
-        <img src={Profile} alt="Profile Image" />
+        <img src={Profiledata.photoURL} alt="Profile Image" />
         <div className="profile-overly">
           <FaCloudUploadAlt className="profile-update-icon" />
         </div>
       </div>
+      <h4>{Profiledata.displayName}</h4>
 
       {/* ============= Icon Here ============= */}
       <div className="page-layout">

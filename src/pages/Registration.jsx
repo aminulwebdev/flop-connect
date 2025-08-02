@@ -3,11 +3,11 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import RegistrationImage from "../assets/reg.png";
+import RegistrationImage from "../assets/reg.png"; // ============ Profile ============
 
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; // ============ Firebase import ============
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from "firebase/auth"; // ============ Firebase import ============
 import { ToastContainer, toast, Bounce, Flip } from "react-toastify"; // ============ React Toastify ============
 import { RotatingLines } from "react-loader-spinner"; // ============ React loader ============
 import { Link, useNavigate } from "react-router-dom"; // ============ Link, Navigate ============
@@ -115,6 +115,12 @@ const Registration = () => {
       // ================ firebase Sign up code ==================
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          // ==================== Update a user's profile ===============
+
+          updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: "https://firebasestorage.googleapis.com/v0/b/flop-connect-fd9fd.firebasestorage.app/o/user-profile.png?alt=media&token=8e0f8cdb-93c5-4f41-b9c7-62fe6cfc3be5",
+          }).then(() => {});
           // ==================== Send Email Verification link ===============
           sendEmailVerification(auth.currentUser).then(() => {
             setEmail("");
@@ -125,6 +131,7 @@ const Registration = () => {
             setTimeout(() => {
               navigate("/login"); // //============= sign up the login e jete navigate ==============
             }, 1000);
+            console.log(userCredential);
           });
         })
         .catch((error) => {
